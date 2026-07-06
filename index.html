@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -55,17 +55,30 @@ Error generating stack: `+e.message+`
   <body>
     <div id="root"></div>
     <script>
-      // Default mute video on load (user can unmute manually)
+      // Default mute + autoplay video (user can unmute manually)
+      function setupVideo(v) {
+        if (v.dataset.videoSetup) return;
+        v.dataset.videoSetup = '1';
+        v.muted = true;
+        v.defaultMuted = true;
+        v.play().catch(function() {});
+      }
+      function setupAllVideos() {
+        document.querySelectorAll('video').forEach(setupVideo);
+      }
       document.addEventListener('DOMContentLoaded', function() {
-        function muteVideos() {
-          document.querySelectorAll('video').forEach(function(v) {
-            v.muted = true;
+        setTimeout(setupAllVideos, 100);
+        setTimeout(setupAllVideos, 500);
+        setTimeout(setupAllVideos, 1500);
+        // Setup new videos added by React re-renders
+        var observer = new MutationObserver(function(mutations) {
+          var hasNew = false;
+          mutations.forEach(function(m) {
+            m.addedNodes.forEach(function(node) {
+              if (node.tagName === 'VIDEO' || (node.querySelector && node.querySelector('video')) hasNew = true;
+            });
           });
-        }
-        setTimeout(muteVideos, 100);
-        setTimeout(muteVideos, 500);
-        var observer = new MutationObserver(function() {
-          muteVideos();
+          if (hasNew) setupAllVideos();
         });
         observer.observe(document.body, { childList: true, subtree: true });
       });
@@ -150,4 +163,3 @@ Error generating stack: `+e.message+`
     </script>
   </body>
 </html>
-
