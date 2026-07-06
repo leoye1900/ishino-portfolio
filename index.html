@@ -55,14 +55,20 @@ Error generating stack: `+e.message+`
   <body>
     <div id="root"></div>
     <script>
-      // Force mute video permanently (React muted prop bug workaround)
-      setInterval(function() {
-        var videos = document.querySelectorAll('video');
-        videos.forEach(function(v) {
-          if (!v.muted) { v.muted = true; }
-          if (v.volume > 0) { v.volume = 0; }
+      // Default mute video on load (user can unmute manually)
+      document.addEventListener('DOMContentLoaded', function() {
+        function muteVideos() {
+          document.querySelectorAll('video').forEach(function(v) {
+            v.muted = true;
+          });
+        }
+        setTimeout(muteVideos, 100);
+        setTimeout(muteVideos, 500);
+        var observer = new MutationObserver(function() {
+          muteVideos();
         });
-      }, 200);
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
     </script>
     <script>
       // Lazy load images in React app with shimmer placeholders
