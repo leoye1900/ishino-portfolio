@@ -63,15 +63,14 @@ Error generating stack: `+e.message+`
   <body>
     <div id="root"></div>
     <script>
-      // Force mute video (React muted prop bug workaround)
-      var muteInterval = setInterval(function() {
+      // Force mute video permanently (React muted prop bug workaround)
+      setInterval(function() {
         var videos = document.querySelectorAll('video');
         videos.forEach(function(v) {
           if (!v.muted) { v.muted = true; }
           if (v.volume > 0) { v.volume = 0; }
         });
       }, 200);
-      setTimeout(function() { clearInterval(muteInterval); }, 15000);
     </script>
     <script>
       // Lazy load images in React app (runs after React renders)
