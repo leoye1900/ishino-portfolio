@@ -1,0 +1,386 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>空间站载荷管理系统（已脱敏） — 石野™ ISHINO</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/nav.css" />
+  <link rel="stylesheet" href="./css/loader.css" />
+  <style>
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url('./fonts/InstrumentSans-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 400; font-display: swap; src: url('./fonts/InstrumentSans-Italic.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url('./fonts/InstrumentSans-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 500; font-display: swap; src: url('./fonts/InstrumentSans-MediumItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 600; font-display: swap; src: url('./fonts/InstrumentSans-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 600; font-display: swap; src: url('./fonts/InstrumentSans-SemiBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 700; font-display: swap; src: url('./fonts/InstrumentSans-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 700; font-display: swap; src: url('./fonts/InstrumentSans-BoldItalic.ttf') format('truetype'); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  background: #fff; color: rgb(29,29,31);
+  font-family: 'Instrument Sans', 'Noto Sans SC', sans-serif;
+  font-size: 16px; line-height: 1.5; letter-spacing: -0.01em;
+  overflow-x: hidden;
+}
+h1, h2, h3 { letter-spacing: -0.03em; }
+.uppercase { text-transform: uppercase; letter-spacing: -0.04em; }
+img { max-width: 100%; display: block; }
+a { color: rgb(0,0,238); text-decoration: none; }
+::selection { background: rgb(29,29,31); color: #fff; }
+
+/* === PROJECT HEADER === */
+.project-header { padding: 110px 40px 0; max-width: 1640px; margin: 0 auto; }
+.project-title {
+  font-size: 50px; font-weight: 700; line-height: 50px;
+  text-transform: uppercase; letter-spacing: -0.8px;
+  color: rgb(29,29,31); margin-bottom: 36px;
+}
+.project-desc {
+  font-size: 23px; font-weight: 500; line-height: 34px;
+  color: rgba(29,29,31,0.7); letter-spacing: 0.4px;
+  max-width: 100%; margin-bottom: 60px;
+}
+
+/* === META ROWS === */
+.meta-list { max-width: 1640px; margin: 0 auto; padding: 0 40px; }
+.meta-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 0; border-bottom: 1px solid rgba(38,38,38,0.16);
+}
+.meta-row:first-child { border-top: 1px solid rgba(38,38,38,0.16); }
+.meta-label { font-size: 20px; font-weight: 600; color: rgba(29,29,31,0.7); text-transform: uppercase; }
+.meta-value { font-size: 20px; font-weight: 600; color: rgb(29,29,31); }
+.meta-value a { color: rgb(29,29,31); }
+
+/* === IMAGES === */
+.hero-image { width: calc(100% - 80px); max-width: 1560px; margin: 60px 40px; height: 70vh; max-height: 600px; overflow: hidden; border-radius: 10px; position: relative; }
+.hero-image img { width: 100%; height: 140%; object-fit: cover; position: absolute; top: 0; left: 0; will-change: transform; }
+.detail-image { width: 100%; max-width: 1640px; margin: 0 auto 40px; padding: 0 40px; }
+.detail-image img { width: 100%; height: auto; border-radius: 10px; }
+.scroll-image { width: 100%; max-width: 1640px; margin: 0 auto 40px; padding: 0 40px; }
+.scroll-image img { width: 100%; height: auto; border-radius: 10px; }
+
+/* === CONTENT SECTION === */
+.content-section { padding: 40px 40px 60px; max-width: 1640px; margin: 0 auto; }
+.content-block {
+  display: flex; gap: 60px; align-items: flex-start;
+  padding: 30px 0;
+}
+.content-block:first-child { padding-top: 0; }
+.content-block + .content-block { border-top: 1px solid rgba(38,38,38,0.16); }
+.content-block .block-title {
+  flex: 0 0 320px; font-size: 30px; font-weight: 600; line-height: 30px;
+  color: rgb(29,29,31); letter-spacing: -0.02em;
+}
+.content-block .block-body {
+  flex: 1; font-size: 24px; font-weight: 500; line-height: 34px;
+  color: rgba(29,29,31,0.7);
+}
+
+/* === CONCEPT === */
+.concept-section { padding: 40px; max-width: 1640px; margin: 0 auto; }
+.concept-section .block-title {
+  font-size: 30px; font-weight: 600; line-height: 30px;
+  color: rgb(29,29,31); margin-bottom: 20px;
+}
+.concept-section .block-body p {
+  font-size: 24px; font-weight: 500; line-height: 34px;
+  color: rgba(29,29,31,0.7);
+}
+.concept-section .block-body p + p { margin-top: 20px; }
+
+/* === MORE WORKS === */
+.more-works { margin-top: 80px; overflow: hidden; }
+.ticker-wrap { overflow: hidden; white-space: nowrap; padding: 20px 0; }
+.ticker-content {
+  display: inline-block; animation: ticker-scroll 20s linear infinite;
+  font-size: 90px; font-weight: 700;
+  letter-spacing: -2.3px; text-transform: uppercase; line-height: 1;
+  color: rgb(29,29,31);
+}
+.ticker-content span { margin-right: 40px; }
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.works-cards {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+  padding: 0 40px; max-width: 1640px; margin: 40px auto 0;
+}
+.work-card { display: block; text-decoration: none; color: inherit; }
+.work-card-img-wrap { overflow: hidden; border-radius: 10px 10px 0 0; aspect-ratio: 694 / 450; }
+.work-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.work-card:hover img { transform: scale(1.05); }
+.work-card-info {
+  display: flex; justify-content: space-between; align-items: center;
+  height: 100px; padding: 0 26px 0 0; border-radius: 0 0 10px 10px; background: rgb(245, 245, 247);
+}
+.work-card-text { display: flex; flex-direction: column; gap: 6px; padding-left: 26px; }
+.work-card-name { font-size: 20px; font-weight: 600; color: rgb(29,29,31); text-transform: uppercase; line-height: 28px; letter-spacing: -0.04em; }
+.work-card-cat { font-size: 18px; font-weight: 500; color: rgb(82,82,82); line-height: 20px; }
+/* Year pill — matches homepage Featured Work */
+.year-pill {
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 10px 20px; position: relative; overflow: hidden;
+  height: 40px; background: rgba(0, 0, 0, 0.07); border-radius: 60px;
+}
+.year-text-wrap { position: relative; display: flex; flex-direction: column; align-items: center; }
+.year-text {
+  font-size: 16px; font-weight: 600; color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.5px; line-height: 20px; white-space: nowrap;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.year-text-default { transform: translateY(0); opacity: 1; }
+.year-text-hover { position: absolute; top: 0; left: 0; width: 100%; text-align: center; transform: translateY(100%); opacity: 0; }
+.work-card:hover .year-text-default { transform: translateY(-100%); opacity: 0; }
+.work-card:hover .year-text-hover { transform: translateY(0); opacity: 1; }
+
+/* === FOOTER === */
+.footer { max-width: 1640px; margin: 80px auto 0; padding: 40px; }
+.footer-disclaimer { margin-bottom: 32px; max-width: 100%; }
+.footer-disclaimer p { font-size: 11px; font-weight: 400; line-height: 1.6; color: rgba(29,29,31,0.5); margin-bottom: 8px; letter-spacing: -0.01em; }
+.footer-disclaimer p:last-child { margin-bottom: 0; }
+.footer-copyright {
+  font-size: clamp(80px, 15vw, 201px); font-weight: 700; line-height: 1;
+  letter-spacing: -0.04em; margin-bottom: 16px;
+}
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+.footer-bottom span { font-size: 12px; font-weight: 400; color: rgb(82,82,82); }
+.footer-bottom a { font-size: 12px; font-weight: 400; color: rgb(0,0,238); transition: opacity 0.3s; }
+.footer-bottom a:hover { opacity: 0.6; }
+
+/* === SCROLL TO TOP === */
+.scroll-top-btn {
+  position: fixed; bottom: 32px; right: 32px; z-index: 90;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgb(29,29,31); color: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.scroll-top-btn.visible { opacity: 1; pointer-events: auto; }
+.scroll-top-btn:hover { transform: scale(1.08); }
+.scroll-top-btn:active { transform: scale(0.96); }
+.scroll-top-btn svg { width: 20px; height: 20px; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .nav { padding: 20px; }
+  .project-header { padding: 60px 20px 0; }
+  .project-title { font-size: 32px; line-height: 36px; }
+  .project-desc { font-size: 18px; line-height: 28px; }
+  .meta-list { padding: 0 20px; }
+  .meta-label, .meta-value { font-size: 16px; }
+  .hero-image, .detail-image, .scroll-image { padding: 0 20px; }
+  .content-section, .concept-section { padding: 20px; }
+  .content-block { flex-direction: column; gap: 16px; }
+  .content-block .block-title { flex: none; }
+  .content-block .block-title, .concept-section .block-title { font-size: 22px; }
+  .content-block .block-body, .concept-section .block-body p { font-size: 18px; line-height: 28px; }
+  .works-cards { grid-template-columns: 1fr; padding: 0 20px; }
+  .footer { padding: 20px; }
+  .ticker-content { font-size: 48px; }
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; opacity: 0; }
+.delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { animation: none; opacity: 1; }
+  .ticker-content { animation: none; }
+}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="./index.html" class="nav-logo"><img src="./images/logo-new.png" alt="石野™ ISHINO" /></a>
+  <div class="nav-dots" onclick="document.getElementById('menuOverlay').classList.add('open')" role="button" aria-label="打开菜单">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <img src="./images/logo-right.png" alt="石野™ ISHINO" class="nav-logo-right" />
+</nav>
+
+<div class="menu-overlay" id="menuOverlay">
+  <button class="menu-close" onclick="document.getElementById('menuOverlay').classList.remove('open')" aria-label="关闭菜单">×</button>
+  <a href="./index.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Home</span><span class="menu-text-hover">Home</span></span><span class="cn menu-link-text"><span class="menu-text-default">首页</span><span class="menu-text-hover">首页</span></span></a>
+  <a href="./index.html#featured" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Selected Works</span><span class="menu-text-hover">Selected Works</span></span><span class="cn menu-link-text"><span class="menu-text-default">精选案例</span><span class="menu-text-hover">精选案例</span></span></a>
+  <a href="./gallery.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Gallery</span><span class="menu-text-hover">Gallery</span></span><span class="cn menu-link-text"><span class="menu-text-default">更多作品</span><span class="menu-text-hover">更多作品</span></span></a>
+  <a href="./index.html#contact" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Contact</span><span class="menu-text-hover">Contact</span></span><span class="cn menu-link-text"><span class="menu-text-default">联系我</span><span class="menu-text-hover">联系我</span></span></a>
+</div>
+
+<section class="project-header">
+  <h2 class="project-title fade-up">空间站载荷管理系统（已脱敏）</h2>
+  <p class="project-desc fade-up delay-1">中国载人航天工程-在轨便携式实验监控设备。为航天员在轨实验提供便携式监控终端，支持载荷管理、数据采集与实时监控，保障空间站实验任务高效执行。</p>
+</section>
+
+<div class="meta-list">
+  <div class="meta-row fade-up"><span class="meta-label">Client</span><span class="meta-value">Lilly Mart</span></div>
+  <div class="meta-row fade-up"><span class="meta-label">Year</span><span class="meta-value">2022</span></div>
+  <div class="meta-row fade-up"><span class="meta-label">Category</span><span class="meta-value">Themes</span></div>
+  <div class="meta-row fade-up"><span class="meta-label">Live Project</span><span class="meta-value"><a href="#">yes</a></span></div>
+</div>
+
+<div class="hero-image fade-up">
+  <img src="./images/space/f.jpg" alt="空间站载荷管理系统（已脱敏）" loading="lazy" />
+</div>
+
+<section class="content-section">
+  <div class="content-block fade-up">
+    <h3 class="block-title">桌面研究 | RESEARCH</h3>
+    <p class="block-body">支撑设计决策：分析空间站失重作业场景、航天员操作习惯与地面科研流程，梳理硬件限制与多任务使用需求，为人机交互方案提供数据支撑。We study zero-gravity cabin scenarios and astronaut workflows to define core interaction demands.</p>
+  </div>
+  <div class="content-block fade-up">
+    <h3 class="block-title">设计探索 | DESIGN</h3>
+    <p class="block-body">易用与适配设计：分层信息版式、标准化色彩编码搭配摇杆键盘双操作，降低操作失误。Hierarchical layout, standard color codes and dual joystick-keyboard controls cut operational errors.</p>
+  </div>
+  <div class="content-block fade-up">
+    <h3 class="block-title">开发测试 | DEVELOPMENT</h3>
+    <p class="block-body">开发性能测试：优化界面渲染与色彩校准，全场景模拟测试，保障在轨稳定运行。Optimize rendering & color calibration; full simulation tests ensure stable on-orbit performance.</p>
+  </div>
+</section>
+
+<div class="detail-image fade-up">
+  <img src="./images/space/石野—品牌与体验设计-建议超宽模式观看-64.jpeg" alt="空间站载荷管理系统（已脱敏） Detail" loading="lazy" />
+</div>
+
+<section class="concept-section fade-up">
+  <h3 class="block-title">Concept</h3>
+  <div class="block-body">
+    <p>Core concept: We build layered information structure with unified color codes and joystick-keyboard dual interaction, delivering low-error HMI adapted to zero-gravity cabin environments.</p>
+    <p>设计核心围绕航天作业安全与操作效率，搭建分层信息架构，搭配标准化色彩编码、摇杆键盘双交互体系，打造适配失重舱内环境的低失误人机界面。</p>
+  </div>
+</section>
+
+<div class="scroll-image fade-up">
+  <img src="./images/space/石野—品牌与体验设计-建议超宽模式观看-65.jpeg" alt="空间站 Scroll Image 1" loading="lazy" />
+</div>
+
+<div class="scroll-image fade-up">
+  <img src="./images/space/石野—品牌与体验设计-建议超宽模式观看-66.gif" alt="空间站 Scroll Image 2" loading="lazy" />
+</div>
+
+<div class="scroll-image fade-up">
+  <img src="./images/space/石野—品牌与体验设计-建议超宽模式观看-67.jpeg" alt="空间站 Scroll Image 3" loading="lazy" />
+</div>
+
+<section class="more-works">
+  <div class="ticker-wrap">
+    <div class="ticker-content">
+      <span>More Works</span><span>More Works</span><span>More Works</span><span>More Works</span>
+      <span>More Works</span><span>More Works</span><span>More Works</span><span>More Works</span>
+    </div>
+  </div>
+  <div class="works-cards">
+        <a href="./audi.html" class="work-card" data-cursor="view">
+      <div class="work-card-img-wrap"><img src="./images/work-audi.jpg" alt="AUDI中国品牌官网" loading="lazy" /></div>
+      <div class="work-card-info">
+        <div class="work-card-text"><span class="work-card-name">AUDI中国品牌官网</span><span class="work-card-cat">WEB</span></div>
+        <div class="year-pill"><div class="year-text-wrap"><span class="year-text year-text-default">2022</span><span class="year-text year-text-hover">2022</span></div></div>
+      </div>
+    </a>
+    <a href="./meme.html" class="work-card" data-cursor="view">
+      <div class="work-card-img-wrap"><img src="./images/work-meme.jpg" alt="么么钱包" loading="lazy" /></div>
+      <div class="work-card-info">
+        <div class="work-card-text"><span class="work-card-name">么么钱包</span><span class="work-card-cat">APP</span></div>
+        <div class="year-pill"><div class="year-text-wrap"><span class="year-text year-text-default">2021</span><span class="year-text year-text-hover">2021</span></div></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-disclaimer">
+    <p>本站全部作品内出现的第三方品牌 LOGO、产品宣传图、商标标识，仅为视觉效果演示使用，不代表我方与该品牌存在合作、授权、代言关系，亦不构成对该品牌的商业推广。</p>
+    <p>所有商标、图文素材知识产权归对应品牌权利人单独所有，本站未取得相关商用授权。</p>
+    <p>如品牌权利人发现本站内容涉嫌侵犯自身知识产权，可通过下方联系方式告知，我方将在收到通知后 24 小时内完成对应作品下架、素材删除处理；若权利人未提前告知直接发起维权，我方不承担扩大损失部分的赔偿责任。</p>
+  </div>
+  <div class="footer-copyright">©2025</div>
+  <div class="footer-bottom">
+    <span>©2024 ishino DESIGN</span>
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Go Back To Top</a>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="19" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+const scrollBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 600) scrollBtn.classList.add('visible');
+  else scrollBtn.classList.remove('visible');
+});
+scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+<script>
+// Hero image parallax
+(function() {
+  var hero = document.querySelector('.hero-image img');
+  if (!hero) return;
+  var heroContainer = document.querySelector('.hero-image');
+  if (!heroContainer) return;
+  function updateParallax() {
+    var rect = heroContainer.getBoundingClientRect();
+    var winH = window.innerHeight;
+    // Only apply when hero is in or near viewport
+    if (rect.bottom < 0 || rect.top > winH) return;
+    // Progress: 0 when hero enters from bottom, 1 when hero exits from top
+    var progress = (winH - rect.top) / (winH + rect.height);
+    progress = Math.max(0, Math.min(1, progress));
+    // Move image: translateY in pixels based on container height
+    // Image is 140% of container height, so we have 20% extra space to move
+    var maxShift = rect.height * 0.2; // 20% of container height in pixels
+    var translateY = (progress - 0.5) * maxShift * 2; // -maxShift to +maxShift
+    hero.style.transform = 'translateY(' + translateY + 'px)';
+  }
+  window.addEventListener('scroll', updateParallax, { passive: true });
+  window.addEventListener('resize', updateParallax);
+  updateParallax();
+})();
+</script>
+<script src="./js/loader.js"></script>
+<div class="cursor-dot" id="cursorDot"></div>
+    <script type='text/javascript'>
+      (function() {
+        var dot = document.getElementById('cursorDot');
+        if (!dot) return;
+        if (!window.matchMedia('(pointer: fine)').matches) {
+          dot.classList.add('touch-hidden');
+          return;
+        }
+        var styleEl = document.createElement('style');
+        styleEl.textContent = '* { cursor: none !important; }';
+        document.head.appendChild(styleEl);
+        document.addEventListener('mousemove', function(e) {
+          dot.style.left = e.clientX + 'px';
+          dot.style.top = e.clientY + 'px';
+        });
+        function enterWork() { dot.classList.add('cursor-view'); }
+        function leaveWork() { dot.classList.remove('cursor-view'); }
+        function bind() {
+          var workCards = document.querySelectorAll('.work-card, [data-cursor="view"]');
+          workCards.forEach(function(el) {
+            el.addEventListener('mouseenter', enterWork);
+            el.addEventListener('mouseleave', leaveWork);
+          });
+        }
+        document.addEventListener('DOMContentLoaded', bind);
+        bind();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+/* === SHARED NAV COMPONENT (used by index.html, gallery.html, audi.html, etc.) === */
+
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 32px 40px; max-width: 1640px; margin: 0 auto; background: #fff;
+}
+.nav-logo { transition: opacity 0.3s; }
+.nav-logo:hover { opacity: 0.6; }
+.nav-logo img { height: 40px; width: auto; }
+
+/* 4-dot menu button — diamond layout with bounce rotation */
+.nav-dots {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  cursor: pointer; width: 20px; height: 20px;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-dots:hover { transform: rotate(45deg) scale(1.15); }
+.nav-dots:active { transform: rotate(45deg) scale(0.9); }
+.nav-dots span { width: 6px; height: 6px; background: rgb(29,29,31); border-radius: 50%; }
+
+/* CONTACT NOW link */
+.nav-cta {
+  font-size: 12px; font-weight: 400; color: rgb(0,0,238);
+  transition: opacity 0.3s; text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+}
+.nav-cta:hover { opacity: 0.6; }
+
+/* Right-side logo (replaces CONTACT NOW) */
+.nav-logo-right { height: 40px; width: auto; }
+
+/* === MENU OVERLAY (matches index.html Framer Motion style) === */
+.menu-overlay {
+  position: fixed; inset: 0; z-index: 100; background: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px;
+  /* clip-path circle reveal animation — matches Framer Motion */
+  clip-path: circle(0% at 50% 50%);
+  pointer-events: none;
+  transition: clip-path 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.menu-overlay.open {
+  clip-path: circle(150% at 50% 50%);
+  pointer-events: auto;
+}
+
+.menu-close {
+  position: absolute; top: 32px; left: 50%; transform: translateX(-50%);
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgb(29,29,31); color: #fff; border: none; cursor: pointer;
+  font-family: inherit; font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s;
+}
+.menu-close:hover { transform: translateX(-50%) scale(1.1); }
+.menu-close:active { transform: translateX(-50%) scale(0.95); }
+
+/* No wrapper div — menu items are direct children of .menu-overlay */
+/* Menu item — matches index: text-5xl md:text-7xl = 48px / 72px */
+.menu-item {
+  display: flex; align-items: baseline; gap: 12px;
+  font-size: 48px; font-weight: 700; line-height: 48px;
+  color: rgb(29,29,31);
+  text-decoration: none;
+  transition: color 0.3s;
+  /* No padding — matches index (0px top/bottom, 0px gap between items) */
+  /* GSAP-style: yPercent + rotate, power4.out, stagger 0.1s */
+  opacity: 0;
+  transform: translateY(100%) rotate(2deg);
+}
+/* Items are children 2-5 (child 1 = .menu-close button) */
+.menu-overlay.open .menu-item:nth-child(2) { animation: menuItemReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; }
+.menu-overlay.open .menu-item:nth-child(3) { animation: menuItemReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; }
+.menu-overlay.open .menu-item:nth-child(4) { animation: menuItemReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+.menu-overlay.open .menu-item:nth-child(5) { animation: menuItemReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+
+@keyframes menuItemReveal {
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+.menu-item:hover { color: rgb(0,0,238); }
+.menu-item .cn {
+  font-size: 48px; font-weight: 700; line-height: 48px;
+  color: rgba(29,29,31,0.6);
+  transition: color 0.3s;
+}
+.menu-item:hover .cn { color: rgba(0,0,238,0.6); }
+
+/* ========== MENU LINK TEXT SLIDE ========== */
+.menu-link-text {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+.menu-text-default,
+.menu-text-hover {
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.menu-text-default {
+  transform: translateY(0);
+  opacity: 1;
+}
+.menu-text-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: rgb(0, 0, 238);
+  transform: translateY(100%);
+  opacity: 0;
+}
+.menu-item:hover .menu-text-default,
+.menu-link:hover .menu-text-default {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.menu-item:hover .menu-text-hover,
+.menu-link:hover .menu-text-hover {
+  transform: translateY(0);
+  opacity: 1;
+}
+/* When slide effect is used, disable the old color change */
+.menu-item.menu-slide:hover { color: rgb(29,29,31); }
+.menu-item.menu-slide:hover .cn { color: rgba(29,29,31,0.6); }
+
+/* Responsive: md:text-7xl = 72px on desktop */
+@media (min-width: 768px) {
+  .menu-item, .menu-item .cn { font-size: 72px; line-height: 72px; }
+}
+
+@media (max-width: 767px) {
+  .nav { padding: 20px; }
+  .menu-item, .menu-item .cn { font-size: 32px; line-height: 32px; }
+}
+
+/* ========== CUSTOM CURSOR ========== */
+/* Always visible — mix-blend-mode:difference handles color inversion on any background */
+.cursor-dot {
+  position: fixed; top: 0; left: 0;
+  width: 16px; height: 16px;
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: rgb(255, 255, 255);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+/* Work card hover → rounded rectangle with VIEW text */
+.cursor-dot.cursor-view {
+  width: 72px; height: 40px;
+  border-radius: 100px;
+}
+.cursor-dot.cursor-view::after {
+  content: 'VIEW';
+  color: rgb(0, 0, 0);
+}
+/* Hide custom cursor on touch devices */
+.cursor-dot.touch-hidden {
+  display: none !important;
+}

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>部署指南 — 石野™ ISHINO</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Syne:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0A0A0A; --bg-card: #141414; --text: #FFF; --text-mid: #999;
+      --text-light: #666; --border: #222; --accent: #4ADE80;
+      --font-display: 'Anton', sans-serif; --font-h: 'Syne', 'Noto Sans SC', sans-serif;
+      --font-body: 'Manrope', 'Noto Sans SC', sans-serif;
+      --gutter: clamp(20px, 4vw, 60px);
+    }
+    body {
+      background: var(--bg); color: var(--text); font-family: var(--font-body);
+      font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 var(--gutter); }
+    .hero { padding: 120px 0 60px; border-bottom: 1px solid var(--border); }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(48px, 10vw, 120px); line-height: 0.9; text-transform: uppercase; }
+    .hero p { color: var(--text-mid); margin-top: 20px; font-size: 18px; max-width: 600px; }
+    .hero .tag { display: inline-block; font-family: var(--font-h); font-size: 12px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+    .section h2 { font-family: var(--font-display); font-size: clamp(32px, 6vw, 64px); line-height: 1; text-transform: uppercase; margin-bottom: 30px; }
+    .section h3 { font-family: var(--font-h); font-size: 20px; font-weight: 700; margin: 30px 0 12px; }
+    .section p { color: var(--text-mid); margin-bottom: 12px; }
+    .section ol, .section ul { margin: 12px 0 12px 24px; color: var(--text-mid); }
+    .section li { margin-bottom: 8px; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 30px; margin: 20px 0; transition: border-color 0.3s; }
+    .card:hover { border-color: var(--accent); }
+    .card .badge { display: inline-block; font-family: var(--font-h); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--accent); color: var(--bg); padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .card h3 { margin-top: 0; }
+    .card .meta { display: flex; gap: 20px; margin-top: 16px; }
+    .card .meta span { font-family: var(--font-h); font-size: 12px; color: var(--text-light); }
+    code { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; font-family: 'Courier New', monospace; font-size: 14px; color: var(--accent); }
+    .code-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 12px 0; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; color: #ccc; }
+    .code-block .comment { color: var(--text-light); }
+    .code-block .cmd { color: var(--accent); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .note { background: rgba(74, 222, 128, 0.08); border: 1px solid rgba(74, 222, 128, 0.2); border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+    .note strong { color: var(--accent); }
+    .note p { color: var(--text); margin: 0; }
+    .file-tree { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.8; color: #ccc; margin: 16px 0; }
+    .file-tree .dir { color: var(--accent); font-weight: bold; }
+    .file-tree .file { color: #ccc; }
+    .footer { padding: 40px 0; text-align: center; }
+    .footer p { font-family: var(--font-h); font-size: 12px; color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; }
+    @media (max-width: 768px) { .grid2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="hero">
+      <span class="tag">Deployment Guide</span>
+      <h1>部署指南</h1>
+      <p>本指南将帮助你将石野™ ISHINO 作品集网站部署到互联网上，让全世界都能访问。以下提供 4 种方案，从最简单到最专业依次排列。</p>
+    </div>
+
+    <div class="section">
+      <h2>项目结构</h2>
+      <p>部署前请确认项目文件结构如下：</p>
+      <div class="file-tree">
+<span class="dir">pes/</span>
+├── <span class="file">index.html</span>          <span class="comment"># 首页</span>
+├── <span class="file">works.html</span>          <span class="comment"># 精选作品页</span>
+├── <span class="file">more-works.html</span>     <span class="comment"># 画廊页</span>
+├── <span class="file">contact.html</span>        <span class="comment"># 联系页</span>
+├── <span class="file">project.html</span>        <span class="comment"># 项目详情页</span>
+├── <span class="dir">css/</span>
+│   └── <span class="file">style.css</span>       <span class="comment"># 样式文件</span>
+└── <span class="dir">js/</span>
+    └── <span class="file">main.js</span>         <span class="comment"># 脚本文件</span>
+      </div>
+      <div class="note">
+        <p><strong>注意：</strong>这是一个纯静态网站（HTML + CSS + JS），无需数据库或后端服务。图片通过 Unsplash CDN 加载，确保网络通畅即可。</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>方案一：Vercel</h2>
+      <div class="card">
+        <span class="badge">推荐 · 最简单</span>
+        <h3>Vercel 部署（免费 · 5分钟）</h3>
+        <p>Vercel 是最简单的静态网站部署平台，支持自动 HTTPS、全球 CDN，且完全免费。</p>
+        <div class="meta">
+          <span>费用：免费</span>
+          <span>技术要求：无</span>
+          <span>全球访问：支持</span>
+        </div>
+      </div>
+      <h3>步骤</h3>
+      <ol>
+        <li>注册 <a href="https://vercel.com" style="color: var(--accent);">vercel.com</a> 账号（可用 GitHub 登录）</li>
+        <li>将 <code>pes</code> 文件夹上传到 GitHub 仓库（或直接拖拽）</li>
+        <li>在 Vercel Dashboard 点击 "Add New Project"</li>
+        <li>选择你的仓库或直接拖拽文件夹到部署区域</li>
+        <li>点击 "Deploy"，等待 1-2 分钟</li>
+        <li>部署完成后，获得 <code>https://你的项目名.vercel.app</code> 地址</li>
+      </ol>
+      <div class="note">
+        <p><strong>快速方式：</strong>打开终端，在 <code>pes</code> 文件夹中运行以下命令：</p>
+      </div>
+      <div class="code-block">
+<span class="cmd">npx</span> vercel
+<span class="comment"># 按提示操作，选择默认设置即可</span>
+<span class="comment"># 完成后会得到一个可访问的 URL</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>方案二：Netlify</h2>
+      <div class="card">
+        <span class="badge">拖拽部署</span>
+        <h3>Netlify 部署（免费 · 3分钟）</h3>
+        <p>Netlify 支持直接拖拽文件夹部署，无需任何命令行操作。</p>
+        <div class="meta">
+          <span>费用：免费</span>
+          <span>技术要求：无</span>
+          <span>自动 HTTPS：支持</span>
+        </div>
+      </div>
+      <h3>步骤</h3>
+      <ol>
+        <li>注册 <a href="https://netlify.com" style="color: var(--accent);">netlify.com</a> 账号</li>
+        <li>进入 Dashboard，找到 "Sites" 页面</li>
+        <li>将 <code>pes</code> 文件夹直接拖拽到虚线框区域</li>
+        <li>等待上传完成（约 10-30 秒）</li>
+        <li>获得 <code>https://随机名称.netlify.app</code> 地址</li>
+        <li>可在 Site Settings 中修改子域名</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>方案三：GitHub Pages</h2>
+      <div class="card">
+        <span class="badge">开发者友好</span>
+        <h3>GitHub Pages 部署（免费 · 10分钟）</h3>
+        <p>适合已有 GitHub 账号的用户，可与代码仓库管理结合。</p>
+        <div class="meta">
+          <span>费用：免费</span>
+          <span>需要：GitHub 账号</span>
+          <span>自定义域名：支持</span>
+        </div>
+      </div>
+      <h3>步骤</h3>
+      <ol>
+        <li>在 GitHub 创建新仓库，例如 <code>ishino-portfolio</code></li>
+        <li>将 <code>pes</code> 文件夹内所有文件推送到仓库：</li>
+      </ol>
+      <div class="code-block">
+<span class="cmd">cd</span> C:\Users\leo\Desktop\pes
+<span class="cmd">git</span> init
+<span class="cmd">git</span> add .
+<span class="cmd">git</span> commit -m "Initial commit"
+<span class="cmd">git</span> branch -M main
+<span class="cmd">git</span> remote add origin https://github.com/你的用户名/ishino-portfolio.git
+<span class="cmd">git</span> push -u origin main
+      </div>
+      <ol start="3">
+        <li>进入仓库 Settings → Pages</li>
+        <li>在 "Source" 下选择 "Deploy from a branch"</li>
+        <li>选择 <code>main</code> 分支，文件夹选 <code>/ (root)</code></li>
+        <li>点击 Save，等待 1-2 分钟</li>
+        <li>访问 <code>https://你的用户名.github.io/ishino-portfolio/</code></li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>方案四：自有服务器</h2>
+      <div class="card">
+        <span class="badge">专业方案</span>
+        <h3>Nginx 服务器部署（适合自有 VPS/云服务器）</h3>
+        <p>如果你有自己的服务器（如阿里云、腾讯云、AWS EC2），可以使用 Nginx 部署。</p>
+        <div class="meta">
+          <span>费用：服务器费用</span>
+          <span>需要：SSH 访问权限</span>
+          <span>完全控制：支持</span>
+        </div>
+      </div>
+      <h3>步骤</h3>
+      <ol>
+        <li>通过 SSH 连接到服务器：</li>
+      </ol>
+      <div class="code-block">
+<span class="cmd">ssh</span> root@你的服务器IP
+      </div>
+      <ol start="2">
+        <li>安装 Nginx：</li>
+      </ol>
+      <div class="code-block">
+<span class="cmd">apt</span> update && <span class="cmd">apt</span> install nginx -y   <span class="comment"># Ubuntu/Debian</span>
+<span class="comment"># 或 yum install nginx -y                # CentOS/RHEL</span>
+      </div>
+      <ol start="3">
+        <li>创建网站目录并上传文件：</li>
+      </ol>
+      <div class="code-block">
+<span class="cmd">mkdir</span> -p /var/www/ishino
+<span class="comment"># 在本地使用 scp 上传文件：</span>
+<span class="cmd">scp</span> -r C:\Users\leo\Desktop\pes\* root@你的服务器IP:/var/www/ishino/
+      </div>
+      <ol start="4">
+        <li>配置 Nginx：</li>
+      </ol>
+      <div class="code-block">
+<span class="cmd">nano</span> /etc/nginx/conf.d/ishino.conf
+      </div>
+      <p>粘贴以下配置：</p>
+      <div class="code-block">
+server {
+    listen 80;
+    server_name your-domain.com;  <span class="comment"># 替换为你的域名或IP</span>
+
+    root /var/www/ishino;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    <span class="comment"># 静态资源缓存</span>
+    location ~* \.(css|js|jpg|png|gif|svg|woff2)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    <span class="comment"># 错误页面</span>
+    error_page 404 /index.html;
+}
+      </div>
+      <ol start="5">
+        <li>测试并重启 Nginx：</li>
+      </ol>
+      <div class="code-block">
+<span class="cmd">nginx</span> -t                    <span class="comment"># 测试配置</span>
+<span class="cmd">systemctl</span> restart nginx    <span class="comment"># 重启服务</span>
+<span class="cmd">systemctl</span> enable nginx     <span class="comment"># 设置开机自启</span>
+      </div>
+      <ol start="6">
+        <li>（可选）配置 HTTPS 证书：</li>
+      </ol>
+      <div class="code-block">
+<span class="cmd">apt</span> install certbot python3-certbot-nginx -y
+<span class="cmd">certbot</span> --nginx -d your-domain.com
+<span class="comment"># 按提示操作，自动配置 SSL 证书</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>方案对比</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3 style="margin-top:0;">Vercel / Netlify</h3>
+          <p>零配置，拖拽即部署，免费，全球 CDN 加速。适合快速上线和个人作品集。</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">GitHub Pages</h3>
+          <p>与代码仓库集成，版本管理方便，免费。适合开发者。</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">自有服务器</h3>
+          <p>完全控制，可绑定自定义域名，支持复杂配置。适合企业级需求。</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">Cloudflare Pages</h3>
+          <p>类似 Vercel，但使用 Cloudflare 全球网络，在国内访问速度更优。免费。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>自定义域名</h2>
+      <p>如果你有自己的域名，可以在任意平台上绑定：</p>
+      <ul>
+        <li><strong>Vercel：</strong>Dashboard → Settings → Domains → 添加域名</li>
+        <li><strong>Netlify：</strong>Site Settings → Domain settings → 添加自定义域名</li>
+        <li><strong>GitHub Pages：</strong>仓库 Settings → Pages → Custom domain</li>
+        <li><strong>自有服务器：</strong>在域名 DNS 中添加 A 记录指向服务器 IP</li>
+      </ul>
+      <div class="note">
+        <p><strong>DNS 配置示例：</strong>添加 A 记录，主机记录填 <code>@</code>（或 <code>www</code>），记录值填你的服务器 IP 或平台提供的地址。DNS 生效通常需要 10分钟-24小时。</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>常见问题</h2>
+      <h3>图片不显示？</h3>
+      <p>网站使用 Unsplash CDN 图片，确保服务器能访问外网。如需离线使用，可将图片下载到本地 <code>assets/</code> 文件夹并修改 HTML 中的图片路径。</p>
+      <h3>字体不加载？</h3>
+      <p>Google Fonts 需要网络访问。如在国内部署且访问较慢，可在 CSS 中将 <code>@import</code> 替换为国内 CDN 镜像，或将字体文件下载到本地。</p>
+      <h3>部署后页面空白？</h3>
+      <p>检查文件路径是否正确。确保 <code>css/style.css</code> 和 <code>js/main.js</code> 路径在 HTML 中使用相对路径（<code>css/style.css</code> 而非 <code>/css/style.css</code>）。</p>
+    </div>
+
+    <div class="footer">
+      <p>©2025 石野™ ISHINO DESIGN — Deployment Guide</p>
+    </div>
+  </div>
+
+</body>
+</html>

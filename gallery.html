@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gallery | 更多作品 — 石野™ ISHINO</title>
+<link rel="icon" href="./images/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./css/nav.css" />
+  <link rel="stylesheet" href="./css/loader.css" />
+<style>
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url('./fonts/InstrumentSans-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: italic; font-weight: 400; font-display: swap;
+  src: url('./fonts/InstrumentSans-Italic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal; font-weight: 500; font-display: swap;
+  src: url('./fonts/InstrumentSans-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: italic; font-weight: 500; font-display: swap;
+  src: url('./fonts/InstrumentSans-MediumItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal; font-weight: 600; font-display: swap;
+  src: url('./fonts/InstrumentSans-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: italic; font-weight: 600; font-display: swap;
+  src: url('./fonts/InstrumentSans-SemiBoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url('./fonts/InstrumentSans-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: italic; font-weight: 700; font-display: swap;
+  src: url('./fonts/InstrumentSans-BoldItalic.ttf') format('truetype');
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  background: #FFFFFF;
+  color: rgb(29, 29, 31);
+  font-family: 'Instrument Sans', 'Noto Sans SC', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+}
+h1, h2, h3 { letter-spacing: -0.03em; }
+[style*="uppercase"], .uppercase { letter-spacing: -0.04em; line-height: 0.95; }
+img { max-width: 100%; display: block; }
+a { color: rgb(0, 0, 238); text-decoration: none; }
+::selection { background: rgb(29, 29, 31); color: #FFFFFF; }
+
+/* Nav styles — shared via /css/nav.css */
+.nav { max-width: 1463px; }
+.nav-logo img { height: 40px; width: auto; }
+
+.main-container {
+  max-width: 1463px; margin: 0 auto; padding: 0 40px;
+  display: flex; flex-direction: column; gap: 30px;
+}
+
+.header-section {
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  min-height: 500px; padding-top: 60px;
+}
+.date-range { font-size: 18px; font-weight: 600; color: rgb(82, 82, 82); }
+.headings { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.heading-gallery { font-size: 90px; font-weight: 700; color: rgb(29,29,31); line-height: 64px; letter-spacing: -0.04em; }
+.heading-endeavours { font-size: 90px; font-weight: 700; color: rgb(29,29,31); letter-spacing: -0.04em; }
+
+/* ========== MASONRY GALLERY ========== */
+.masonry-section {
+  padding-top: 80px; padding-bottom: 80px;
+}
+.masonry-grid {
+  column-count: 3;
+  column-gap: 24px;
+}
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.masonry-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.masonry-item img {
+  width: 100%; height: auto; display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.masonry-item:hover img {
+  transform: scale(1.03);
+}
+
+@media (max-width: 1024px) {
+  .masonry-grid { column-count: 2; }
+}
+@media (max-width: 768px) {
+  .heading-gallery, .heading-endeavours { font-size: 48px; }
+  .footer-beauregard { font-size: 60px; }
+  .masonry-grid { column-count: 1; column-gap: 16px; }
+  .masonry-item { margin-bottom: 16px; }
+}
+
+/* Footer */
+.footer-section {
+  display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px 40px 0;
+}
+.footer-beauregard { font-size: 116px; font-weight: 700; color: rgb(29,29,31); line-height: 100px; letter-spacing: -0.04em; }
+.footer-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; max-width: 1463px; padding: 0 40px 40px;
+  font-size: 18px; font-weight: 600; color: rgb(29,29,31);
+}
+.footer-bar a { font-size: 12px; font-weight: 400; color: rgb(0,0,238); }
+.footer-disclaimer { padding: 0 40px 20px; max-width: 1463px; margin: 0 auto; }
+.footer-disclaimer p { font-size: 11px; font-weight: 400; line-height: 1.6; color: rgba(29,29,31,0.5); margin-bottom: 8px; letter-spacing: -0.01em; }
+.footer-disclaimer p:last-child { margin-bottom: 0; }
+
+/* Scroll to top button */
+.scroll-top {
+  position: fixed; bottom: 32px; right: 32px; z-index: 50;
+  width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgb(29,29,31); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+  opacity: 0; pointer-events: none;
+}
+.scroll-top.visible { opacity: 1; pointer-events: auto; }
+.scroll-top:hover { transform: scale(1.08); background-color: rgb(0,0,238); }
+.scroll-top:active { transform: scale(0.96); }
+
+/* Menu overlay styles — shared via /css/nav.css */
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="./images/logo-new.png" alt="石野™ ISHINO" />
+  </a>
+  <div class="nav-dots" onclick="document.querySelector('.menu-overlay').classList.add('open')">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <img src="./images/logo-right.png" alt="石野™ ISHINO" class="nav-logo-right" />
+</nav>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay">
+  <button class="menu-close" onclick="document.querySelector('.menu-overlay').classList.remove('open')" aria-label="关闭菜单">×</button>
+  <a href="index.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Home</span><span class="menu-text-hover">Home</span></span><span class="cn menu-link-text"><span class="menu-text-default">首页</span><span class="menu-text-hover">首页</span></span></a>
+  <a href="index.html#featured" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Selected Works</span><span class="menu-text-hover">Selected Works</span></span><span class="cn menu-link-text"><span class="menu-text-default">精选案例</span><span class="menu-text-hover">精选案例</span></span></a>
+  <a href="gallery.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Gallery</span><span class="menu-text-hover">Gallery</span></span><span class="cn menu-link-text"><span class="menu-text-default">更多作品</span><span class="menu-text-hover">更多作品</span></span></a>
+  <a href="contact.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Contact</span><span class="menu-text-hover">Contact</span></span><span class="cn menu-link-text"><span class="menu-text-default">联系我</span><span class="menu-text-hover">联系我</span></span></a>
+</div>
+
+<div class="main-container">
+  <!-- HEADER -->
+  <section class="header-section">
+    <p class="date-range">(2012 - 2024)</p>
+    <div class="headings">
+      <p class="heading-gallery">Gallery</p>
+      <p class="heading-endeavours">OTHER</p>
+    </div>
+  </section>
+
+  <!-- MASONRY GALLERY -->
+  <section class="masonry-section">
+    <div class="masonry-grid" id="masonryGrid"></div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-section">
+  <p class="footer-beauregard">Beauregard</p>
+</div>
+<div class="footer-disclaimer">
+  <p>本站全部作品内出现的第三方品牌 LOGO、产品宣传图、商标标识，仅为视觉效果演示使用，不代表我方与该品牌存在合作、授权、代言关系，亦不构成对该品牌的商业推广。</p>
+  <p>所有商标、图文素材知识产权归对应品牌权利人单独所有，本站未取得相关商用授权。</p>
+  <p>如品牌权利人发现本站内容涉嫌侵犯自身知识产权，可通过下方联系方式告知，我方将在收到通知后 24 小时内完成对应作品下架、素材删除处理；若权利人未提前告知直接发起维权，我方不承担扩大损失部分的赔偿责任。</p>
+</div>
+<div class="footer-bar">
+  <span>©2024 MANDRO DESIGN</span>
+  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Go Back To Top</a>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7" />
+  </svg>
+</button>
+
+<script>
+// All images from /all/ folder
+var images = [
+  { type: "image", src: "-103879786.jpg" },
+  { type: "image", src: "1765812826442.png" },
+  { type: "image", src: "2020新简历_画板 1 副本 5.jpg" },
+  { type: "image", src: "2025726幼儿园导视插画_画板 1.jpg" },
+  { type: "image", src: "3－1-01.png" },
+  { type: "image", src: "4.jpg" },
+  { type: "image", src: "5.jpg" },
+  { type: "image", src: "711_画板 1.png" },
+  { type: "image", src: "Coffee Cup in Park Mockup.png" },
+  { type: "image", src: "Free Backside T-Shirt Mockup.png" },
+  { type: "image", src: "Free Signage Wall Mockup.png" },
+  { type: "image", src: "Free Window Sticker Mockup.png" },
+  { type: "image", src: "IMG_20211130_022045.jpg" },
+  { type: "image", src: "ambery包装-01.jpg" },
+  { type: "image", src: "image (1).png" },
+  { type: "image", src: "image.png" },
+  { type: "image", src: "imageye___-_imgi_41_1772452169645-05e6595e-7b09-4c5d-a7dd-f216bb770215.jpg" },
+  { type: "image", src: "imageye___-_imgi_42_1772452211388-8fdd54c2-3c5e-4f73-8f79-979c5638bd9a.png" },
+  { type: "image", src: "imageye___-_imgi_62_1654509076703-694d372e-d4d8-4e13-8d54-cecaf3c26184.jpg" },
+  { type: "image", src: "imageye___-_imgi_63_1654509077039-7b1338fd-6c57-40eb-8909-66aacc576270.jpg" },
+  { type: "image", src: "imageye___-_imgi_64_1654509077435-c5757a61-ae7a-49b9-b7fe-4037d96135d8.jpg" },
+  { type: "image", src: "imageye___-_imgi_65_1654509077755-b24bc387-0255-400a-8451-811d424005b6.jpg" },
+  { type: "image", src: "imageye___-_imgi_66_1654509077847-c88377c3-d4d8-4059-9b43-95b9eb3fd4fc.jpg" },
+  { type: "image", src: "imageye___-_imgi_67_1654509078141-ffd0c2ed-fe20-45d3-a60a-04629a4916c5.jpg" },
+  { type: "image", src: "imageye___-_imgi_68_1654509078131-6b9b6458-7f09-4f81-b496-7c38c1f3d20c.jpg" },
+  { type: "image", src: "imageye___-_imgi_69_1654509079954-887caa43-26f4-4928-9841-7021e42d7c01.jpg" },
+  { type: "image", src: "tthai-02.jpg" },
+  { type: "image", src: "tthai-03.jpg" },
+  { type: "image", src: "tthai_画板 1.jpg" },
+  { type: "image", src: "《新时代的刑具.JPG》即兴创作_1_古德Ai画师_来自小红书网页版.jpg" },
+  { type: "image", src: "亚洲_画板 1.jpg" },
+  { type: "image", src: "医院.jpg" },
+  { type: "image", src: "南平正荣广场－VI-01.jpg" },
+  { type: "image", src: "南平正荣广场－VI-02.jpg" },
+  { type: "image", src: "南平正荣广场－VI-03.jpg" },
+  { type: "image", src: "南平正荣广场－VI-04.jpg" },
+  { type: "image", src: "南平正荣广场－VI-05.jpg" },
+  { type: "image", src: "南平正荣广场－VI-06.jpg" },
+  { type: "image", src: "南平正荣广场－VI-07.jpg" },
+  { type: "image", src: "南平正荣广场－VI-08.jpg" },
+  { type: "image", src: "南平正荣广场－VI-09.jpg" },
+  { type: "image", src: "南平正荣广场－VI-10.jpg" },
+  { type: "image", src: "南平正荣广场－VI-11.jpg" },
+  { type: "image", src: "南平正荣广场－VI-12.jpg" },
+  { type: "image", src: "南平正荣广场－VI-13.jpg" },
+  { type: "image", src: "合成 1_2.gif" },
+  { type: "image", src: "大碗.jpg" },
+  { type: "image", src: "奶茶.jpg" },
+  { type: "image", src: "抽奖令牌（转曲）p-01.jpg" },
+  { type: "image", src: "方山-02.jpg" },
+  { type: "image", src: "方山-03.jpg" },
+  { type: "image", src: "方山-05.jpg" },
+  { type: "image", src: "方山-06.jpg" },
+  { type: "image", src: "方山-07.jpg" },
+  { type: "image", src: "方山_画板 1.jpg" },
+  { type: "image", src: "本土东游记gai.jpg" },
+  { type: "image", src: "楠瑞222 [已恢复]-02.jpg" },
+  { type: "image", src: "画板.jpg" },
+  { type: "image", src: "简历补充2019-12.jpg" },
+  { type: "image", src: "简历补充2019-13.jpg" },
+  { type: "image", src: "简历补充2019-14.jpg" },
+  { type: "image", src: "简历补充2019-15.jpg" },
+  { type: "image", src: "简历补充2019-16.jpg" },
+  { type: "image", src: "简历补充2019-17.jpg" },
+  { type: "image", src: "简历补充2019-18.jpg" },
+  { type: "image", src: "美.jpg" },
+  { type: "image", src: "鱼丸_画板 1_画板 1.jpg" },
+];
+
+// Build masonry grid
+var grid = document.getElementById('masonryGrid');
+images.forEach(function(item_data, index) {
+  var item = document.createElement('div');
+  item.className = 'masonry-item';
+  if (item_data.type === 'video') {
+    var video = document.createElement('video');
+    video.src = './all/' + item_data.src;
+    video.autoplay = true; video.muted = true; video.loop = true; video.playsInline = true;
+    video.style.width = '100%';
+    video.style.borderRadius = '10px';
+    item.appendChild(video);
+  } else {
+    var img = document.createElement('img');
+    img.src = './all/' + item_data.src;
+    img.alt = item_data.src.replace(/\.[^/.]+$/, '');
+    img.loading = 'lazy';
+    item.appendChild(img);
+  }
+  grid.appendChild(item);
+});
+
+// Intersection Observer for fade-in animation
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      setTimeout(function() {
+        entry.target.classList.add('visible');
+      }, Math.min(entries.indexOf(entry) * 50, 300));
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '50px' });
+
+document.querySelectorAll('.masonry-item').forEach(function(item) {
+  observer.observe(item);
+});
+</script>
+
+<script>
+window.addEventListener('scroll', function() {
+  var btn = document.querySelector('.scroll-top');
+  if (window.scrollY > 600) { btn.classList.add('visible'); }
+  else { btn.classList.remove('visible'); }
+});
+</script>
+
+<script src="./js/loader.js"></script>
+<div class="cursor-dot" id="cursorDot"></div>
+<script type='text/javascript'>
+  (function() {
+    var dot = document.getElementById('cursorDot');
+    if (!dot) return;
+    if (!window.matchMedia('(pointer: fine)').matches) {
+      dot.classList.add('touch-hidden');
+      return;
+    }
+    var styleEl = document.createElement('style');
+    styleEl.textContent = '* { cursor: none !important; }';
+    document.head.appendChild(styleEl);
+    document.addEventListener('mousemove', function(e) {
+      dot.style.left = e.clientX + 'px';
+      dot.style.top = e.clientY + 'px';
+    });
+    function enterWork() { dot.classList.add('cursor-view'); }
+    function leaveWork() { dot.classList.remove('cursor-view'); }
+    function bind() {
+      var workCards = document.querySelectorAll('.work-card, [data-cursor="view"]');
+      workCards.forEach(function(el) {
+        el.addEventListener('mouseenter', enterWork);
+        el.addEventListener('mouseleave', leaveWork);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', bind);
+    bind();
+  })();
+</script>
+</body>
+</html>

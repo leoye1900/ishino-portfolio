@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | 联系我 — 石野™ ISHINO</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/nav.css" />
+  <link rel="stylesheet" href="./css/loader.css" />
+  <style>
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url('./fonts/InstrumentSans-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 400; font-display: swap; src: url('./fonts/InstrumentSans-Italic.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url('./fonts/InstrumentSans-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 500; font-display: swap; src: url('./fonts/InstrumentSans-MediumItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 600; font-display: swap; src: url('./fonts/InstrumentSans-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 600; font-display: swap; src: url('./fonts/InstrumentSans-SemiBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 700; font-display: swap; src: url('./fonts/InstrumentSans-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Instrument Sans'; font-style: italic; font-weight: 700; font-display: swap; src: url('./fonts/InstrumentSans-BoldItalic.ttf') format('truetype'); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  background: #fff; color: rgb(29,29,31);
+  font-family: 'Instrument Sans', 'Noto Sans SC', sans-serif;
+  font-size: 16px; line-height: 1.5; letter-spacing: -0.01em;
+  overflow-x: hidden;
+}
+h1, h2, h3 { letter-spacing: -0.03em; }
+.uppercase { text-transform: uppercase; letter-spacing: -0.04em; }
+img { max-width: 100%; display: block; }
+a { color: rgb(0,0,238); text-decoration: none; }
+::selection { background: rgb(29,29,31); color: #fff; }
+
+/* === CONTACT HERO === */
+.contact-hero {
+  max-width: 1640px; margin: 0 auto; padding: 120px 40px 60px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.contact-title {
+  font-size: clamp(60px, 12vw, 160px); font-weight: 700; line-height: 0.95;
+  letter-spacing: -0.04em; color: rgb(29,29,31); margin-bottom: 40px;
+  text-transform: uppercase;
+}
+.contact-subtitle {
+  font-size: 23px; font-weight: 500; line-height: 34px;
+  color: rgba(29,29,31,0.7); letter-spacing: 0.4px; max-width: 700px;
+}
+.contact-subtitle-cn {
+  font-size: 18px; font-weight: 400; line-height: 28px;
+  color: rgba(29,29,31,0.5); margin-top: 12px;
+}
+
+/* === CONTACT INFO GRID === */
+.contact-info {
+  max-width: 1640px; margin: 0 auto; padding: 60px 40px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px 40px;
+}
+.info-block { display: flex; flex-direction: column; gap: 16px; }
+.info-label {
+  font-size: 12px; font-weight: 600; color: rgb(0,0,238);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding-bottom: 12px; border-bottom: 1px solid rgba(38,38,38,0.16);
+}
+.info-label-cn { font-size: 12px; font-weight: 400; color: rgba(29,29,31,0.5); }
+.info-item { display: flex; flex-direction: column; gap: 4px; }
+.info-item-label { font-size: 14px; font-weight: 600; color: rgba(29,29,31,0.5); text-transform: uppercase; letter-spacing: 0.04em; }
+.info-item-value { font-size: 20px; font-weight: 600; color: rgb(29,29,31); line-height: 28px; }
+.info-item-value a { color: rgb(29,29,31); transition: color 0.3s; }
+.info-item-value a:hover { color: rgb(0,0,238); }
+.info-item-sub { font-size: 14px; font-weight: 400; color: rgba(29,29,31,0.5); }
+
+/* === SOCIAL LINKS === */
+.social-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.social-link {
+  font-size: 20px; font-weight: 600; color: rgb(29,29,31);
+  transition: color 0.3s; position: relative; display: inline-block;
+}
+.social-link:hover { color: rgb(0,0,238); }
+
+/* === FOOTER === */
+.footer { max-width: 1640px; margin: 80px auto 0; padding: 40px; }
+.footer-disclaimer { margin-bottom: 32px; max-width: 100%; }
+.footer-disclaimer p { font-size: 11px; font-weight: 400; line-height: 1.6; color: rgba(29,29,31,0.5); margin-bottom: 8px; letter-spacing: -0.01em; }
+.footer-disclaimer p:last-child { margin-bottom: 0; }
+.footer-copyright {
+  font-size: clamp(80px, 15vw, 201px); font-weight: 700; line-height: 1;
+  letter-spacing: -0.04em; margin-bottom: 16px;
+}
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+.footer-bottom span { font-size: 12px; font-weight: 400; color: rgb(82,82,82); }
+.footer-bottom a { font-size: 12px; font-weight: 400; color: rgb(0,0,238); transition: opacity 0.3s; }
+.footer-bottom a:hover { opacity: 0.6; }
+
+/* === SCROLL TO TOP === */
+.scroll-top-btn {
+  position: fixed; bottom: 32px; right: 32px; z-index: 90;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgb(29,29,31); color: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, background-color 0.3s ease;
+}
+.scroll-top-btn.visible { opacity: 1; pointer-events: auto; }
+.scroll-top-btn:hover { transform: scale(1.08); background-color: rgb(0,0,238); }
+.scroll-top-btn:active { transform: scale(0.96); }
+.scroll-top-btn svg { width: 20px; height: 20px; }
+
+/* === ANIMATIONS === */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.fade-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-up:nth-child(2) { animation-delay: 0.2s; }
+.fade-up:nth-child(3) { animation-delay: 0.3s; }
+.fade-up:nth-child(4) { animation-delay: 0.4s; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .nav { padding: 20px; }
+  .contact-hero { padding: 80px 20px 40px; }
+  .contact-info { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+  .footer { padding: 20px; }
+}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="./images/logo-new.png" alt="石野™ ISHINO" />
+  </a>
+  <div class="nav-dots" onclick="document.querySelector('.menu-overlay').classList.add('open')">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <img src="./images/logo-right.png" alt="石野™ ISHINO" class="nav-logo-right" />
+</nav>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay">
+  <button class="menu-close" onclick="document.querySelector('.menu-overlay').classList.remove('open')" aria-label="关闭菜单">×</button>
+  <a href="index.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Home</span><span class="menu-text-hover">Home</span></span><span class="cn menu-link-text"><span class="menu-text-default">首页</span><span class="menu-text-hover">首页</span></span></a>
+  <a href="index.html#featured" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Selected Works</span><span class="menu-text-hover">Selected Works</span></span><span class="cn menu-link-text"><span class="menu-text-default">精选案例</span><span class="menu-text-hover">精选案例</span></span></a>
+  <a href="gallery.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Gallery</span><span class="menu-text-hover">Gallery</span></span><span class="cn menu-link-text"><span class="menu-text-default">更多作品</span><span class="menu-text-hover">更多作品</span></span></a>
+  <a href="contact.html" class="menu-item menu-slide"><span class="menu-link-text"><span class="menu-text-default">Contact</span><span class="menu-text-hover">Contact</span></span><span class="cn menu-link-text"><span class="menu-text-default">联系我</span><span class="menu-text-hover">联系我</span></span></a>
+</div>
+
+<!-- CONTACT HERO -->
+<section class="contact-hero">
+  <h1 class="contact-title fade-up">Say Hello!</h1>
+  <p class="contact-subtitle fade-up">My creative spirit comes alive in the digital realm. With nimble fingers flying across the keyboard.</p>
+  <p class="contact-subtitle-cn fade-up">我的创意灵感在数字世界中绽放，指尖在键盘上飞舞，将想法化为现实。</p>
+</section>
+
+<!-- CONTACT INFO -->
+<section class="contact-info">
+  <div class="info-block fade-up">
+    <div class="info-label">SOCIAL <span class="info-label-cn">/ 社交</span></div>
+    <div class="social-links">
+      <span class="social-link" style="color: rgba(29,29,31,0.3);">Instagram</span>
+      <span class="social-link" style="color: rgba(29,29,31,0.3);">Dribbble</span>
+      <span class="social-link" style="color: rgba(29,29,31,0.3);">Twitter</span>
+    </div>
+  </div>
+
+  <div class="info-block fade-up">
+    <div class="info-label">CURRENT LOCATION <span class="info-label-cn">/ 当前位置</span></div>
+    <div class="info-item">
+      <span class="info-item-value">Shanghai, China</span>
+      <span class="info-item-sub">上海 · 中国</span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-value">Hangzhou, China</span>
+      <span class="info-item-sub">杭州 · 中国</span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-value">Jinhua, China</span>
+      <span class="info-item-sub">金华 · 中国</span>
+    </div>
+  </div>
+
+  <div class="info-block fade-up">
+    <div class="info-label">PHONE <span class="info-label-cn">/ 电话</span></div>
+    <div class="info-item">
+      <span class="info-item-label">SHANGHAI 上海</span>
+      <span class="info-item-value"><a href="tel:+8613800000000">+86 138 0000 0000</a></span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-label">HANGZHOU 杭州</span>
+      <span class="info-item-value"><a href="tel:+8613900000000">+86 139 0000 0000</a></span>
+    </div>
+  </div>
+
+  <div class="info-block fade-up">
+    <div class="info-label">EMAIL <span class="info-label-cn">/ 邮箱</span></div>
+    <div class="info-item">
+      <span class="info-item-value"><a href="mailto:175891358@qq.com">175891358@qq.com</a></span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-value"><a href="mailto:theleoye@outlook.com">theleoye@outlook.com</a></span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-disclaimer">
+    <p>本站全部作品内出现的第三方品牌 LOGO、产品宣传图、商标标识，仅为视觉效果演示使用，不代表我方与该品牌存在合作、授权、代言关系，亦不构成对该品牌的商业推广。</p>
+    <p>所有商标、图文素材知识产权归对应品牌权利人单独所有，本站未取得相关商用授权。</p>
+    <p>如品牌权利人发现本站内容涉嫌侵犯自身知识产权，可通过下方联系方式告知，我方将在收到通知后 24 小时内完成对应作品下架、素材删除处理；若权利人未提前告知直接发起维权，我方不承担扩大损失部分的赔偿责任。</p>
+  </div>
+  <div class="footer-copyright">©2025</div>
+  <div class="footer-bottom">
+    <span>©2024 ishino DESIGN</span>
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Go Back To Top</a>
+  </div>
+</footer>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="19" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+const scrollBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 600) scrollBtn.classList.add('visible');
+  else scrollBtn.classList.remove('visible');
+});
+scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+<script src="./js/loader.js"></script>
+<div class="cursor-dot" id="cursorDot"></div>
+<script type='text/javascript'>
+  (function() {
+    var dot = document.getElementById('cursorDot');
+    if (!dot) return;
+    if (!window.matchMedia('(pointer: fine)').matches) {
+      dot.classList.add('touch-hidden');
+      return;
+    }
+    var styleEl = document.createElement('style');
+    styleEl.textContent = '* { cursor: none !important; }';
+    document.head.appendChild(styleEl);
+    document.addEventListener('mousemove', function(e) {
+      dot.style.left = e.clientX + 'px';
+      dot.style.top = e.clientY + 'px';
+    });
+    function enterWork() { dot.classList.add('cursor-view'); }
+    function leaveWork() { dot.classList.remove('cursor-view'); }
+    function bind() {
+      var workCards = document.querySelectorAll('.work-card, [data-cursor="view"]');
+      workCards.forEach(function(el) {
+        el.addEventListener('mouseenter', enterWork);
+        el.addEventListener('mouseleave', leaveWork);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', bind);
+    bind();
+  })();
+</script>
+</body>
+</html>

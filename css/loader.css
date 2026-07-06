@@ -1,0 +1,12 @@
+/* === IMAGE/VIDEO LOADING OPTIMIZATION — minimal, non-invasive === */
+/* Only fade-in transition; no DOM wrapping */
+
+img {
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Video loading spinner (shown while source loads) */
+video:not([src]) source:not([src]) ~ .video-spinner,
+video[data-loading] {
+  background: #1a1a1a;
+}
