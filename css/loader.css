@@ -1,12 +1,51 @@
-/* === IMAGE/VIDEO LOADING OPTIMIZATION — minimal, non-invasive === */
-/* Only fade-in transition; no DOM wrapping */
+/* === IMAGE/VIDEO LOADING OPTIMIZATION === */
+/* Shimmer placeholder + lazy loading + fade-in transition */
 
-img {
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+/* Shimmer animation for loading placeholders */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-/* Video loading spinner (shown while source loads) */
-video:not([src]) source:not([src]) ~ .video-spinner,
-video[data-loading] {
+/* Images being lazy-loaded: show shimmer background */
+img.lazy-loading {
+  display: block;  /* Force block so width:100% works without src */
+  width: 100% !important;  /* Override any intrinsic sizing */
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite !important;
+  opacity: 1;
+  color: transparent;
+  font-size: 0;
+  min-height: 300px;  /* Taller placeholder for better visual */
+  border-radius: 10px;
+}
+
+/* Images loaded: fade in from shimmer to actual image */
+img.lazy-loaded {
+  display: block;
+  opacity: 1;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s ease;
+  background: none !important;
+  animation: none !important;
+  min-height: 0 !important;
+}
+
+/* Video loading placeholder */
+video.lazy-loading {
+  display: block;
+  width: 100%;
   background: #1a1a1a;
+  min-height: 300px;
+  border-radius: 10px;
 }
+
+video.lazy-loaded {
+  display: block;
+  background: none;
+  min-height: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* Fallback: ensure images without JS still show */
+noscript img { opacity: 1 !important; }

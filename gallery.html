@@ -120,25 +120,21 @@ a { color: rgb(0, 0, 238); text-decoration: none; }
 }
 @media (max-width: 768px) {
   .heading-gallery, .heading-endeavours { font-size: 48px; }
-  .footer-beauregard { font-size: 60px; }
   .masonry-grid { column-count: 1; column-gap: 16px; }
   .masonry-item { margin-bottom: 16px; }
 }
 
 /* Footer */
-.footer-section {
-  display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px 40px 0;
-}
-.footer-beauregard { font-size: 116px; font-weight: 700; color: rgb(29,29,31); line-height: 100px; letter-spacing: -0.04em; }
 .footer-bar {
-  display: flex; justify-content: space-between; align-items: center;
-  width: 100%; max-width: 1463px; padding: 0 40px 40px;
+  display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap;
+  width: 100%; max-width: 1560px; padding: 0 40px 40px; margin: 0 auto;
   font-size: 18px; font-weight: 600; color: rgb(29,29,31);
 }
 .footer-bar a { font-size: 12px; font-weight: 400; color: rgb(0,0,238); }
-.footer-disclaimer { padding: 0 40px 20px; max-width: 1463px; margin: 0 auto; }
+.footer-disclaimer { padding: 0 40px 20px; max-width: 1560px; margin: 0 auto; }
 .footer-disclaimer p { font-size: 11px; font-weight: 400; line-height: 1.6; color: rgba(29,29,31,0.5); margin-bottom: 8px; letter-spacing: -0.01em; }
 .footer-disclaimer p:last-child { margin-bottom: 0; }
+.footer-copyright { font-size: clamp(80px, 15vw, 201px); font-weight: 700; line-height: 1; letter-spacing: -0.04em; margin-bottom: 16px; text-align: center; }
 
 /* Scroll to top button */
 .scroll-top {
@@ -195,16 +191,14 @@ a { color: rgb(0, 0, 238); text-decoration: none; }
 </div>
 
 <!-- FOOTER -->
-<div class="footer-section">
-  <p class="footer-beauregard">Beauregard</p>
-</div>
 <div class="footer-disclaimer">
   <p>本站全部作品内出现的第三方品牌 LOGO、产品宣传图、商标标识，仅为视觉效果演示使用，不代表我方与该品牌存在合作、授权、代言关系，亦不构成对该品牌的商业推广。</p>
   <p>所有商标、图文素材知识产权归对应品牌权利人单独所有，本站未取得相关商用授权。</p>
   <p>如品牌权利人发现本站内容涉嫌侵犯自身知识产权，可通过下方联系方式告知，我方将在收到通知后 24 小时内完成对应作品下架、素材删除处理；若权利人未提前告知直接发起维权，我方不承担扩大损失部分的赔偿责任。</p>
 </div>
+<div class="footer-copyright">©2025-2026</div>
 <div class="footer-bar">
-  <span>©2024 MANDRO DESIGN</span>
+  <span>©2025-2026 ishino DESIGN</span>
   <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Go Back To Top</a>
 </div>
 
@@ -294,16 +288,20 @@ images.forEach(function(item_data, index) {
   item.className = 'masonry-item';
   if (item_data.type === 'video') {
     var video = document.createElement('video');
-    video.src = './all/' + item_data.src;
+    var vsource = document.createElement('source');
+    vsource.dataset.src = './all/' + item_data.src;
+    vsource.type = 'video/mp4';
+    video.appendChild(vsource);
     video.autoplay = true; video.muted = true; video.loop = true; video.playsInline = true;
+    video.classList.add('lazy-loading');
     video.style.width = '100%';
     video.style.borderRadius = '10px';
     item.appendChild(video);
   } else {
     var img = document.createElement('img');
-    img.src = './all/' + item_data.src;
+    img.dataset.src = './all/' + item_data.src;
     img.alt = item_data.src.replace(/\.[^/.]+$/, '');
-    img.loading = 'lazy';
+    img.classList.add('lazy-loading');
     item.appendChild(img);
   }
   grid.appendChild(item);
