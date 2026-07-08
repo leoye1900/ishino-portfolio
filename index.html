@@ -90,9 +90,15 @@ Error generating stack: `+e.message+`
       });
     </script>
     <script>
-      // Lazy load images in React app with shimmer placeholders
+      // Lazy load images with shimmer placeholders — robust version
       function initLazyLoad() {
-        if (!('IntersectionObserver' in window)) return;
+        if (!('IntersectionObserver' in window)) {
+          // Fallback: load all images immediately
+          document.querySelectorAll('img[data-src]').forEach(function(img) {
+            img.src = img.dataset.src; delete img.dataset.src;
+          });
+          return;
+        }
 
         var lazyObserver = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -124,22 +130,22 @@ Error generating stack: `+e.message+`
               lazyObserver.unobserve(el);
             }
           });
-        }, { rootMargin: '300px 0px', threshold: 0.01 });
+        }, { rootMargin: '500px 0px', threshold: 0.01 });
 
-        // Setup images: convert src to data-src + add shimmer
+        // Find images that need lazy loading
         document.querySelectorAll('img').forEach(function(img) {
           if (img.closest('.nav-logo')) return;
           if (img.dataset.lazySetup) return;
           img.dataset.lazySetup = '1';
 
-          // Skip if already loaded
+          // Already loaded
           if (img.complete && img.naturalWidth > 0 && img.src) {
             img.classList.add('lazy-loaded');
             return;
           }
 
           // Convert src to data-src for lazy loading
-          if (img.src && !img.closest('.hero-video')) {
+          if (img.src && !img.closest('.hero-video') && !img.closest('.hero-image')) {
             img.dataset.src = img.src;
             img.removeAttribute('src');
             img.classList.add('lazy-loading');
@@ -147,9 +153,11 @@ Error generating stack: `+e.message+`
           }
         });
 
-        // Lazy load videos (except hero video)
+        // Lazy load videos
         document.querySelectorAll('video').forEach(function(video) {
           if (video.closest('.hero-video') || video.closest('.hero-image')) return;
+          if (video.dataset.lazySetup) return;
+          video.dataset.lazySetup = '1';
           var sources = video.querySelectorAll('source[src]');
           if (sources.length > 0) {
             video.classList.add('lazy-loading');
@@ -162,10 +170,12 @@ Error generating stack: `+e.message+`
         });
       }
 
-      // Run after React mounts (multiple times to catch late renders)
-      setTimeout(initLazyLoad, 300);
-      setTimeout(initLazyLoad, 1000);
+      // Run repeatedly to catch React re-renders
+      setTimeout(initLazyLoad, 100);
+      setTimeout(initLazyLoad, 500);
+      setTimeout(initLazyLoad, 1500);
       setTimeout(initLazyLoad, 3000);
+      setTimeout(initLazyLoad, 6000);
     </script>
     <script>
       // Image protection (deferred): disable right-click, drag, and selection on images/videos
