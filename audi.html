@@ -211,6 +211,23 @@ a { color: rgb(0,0,238); text-decoration: none; }
   .ticker-content { animation: none; }
 }
   </style>
+  <script>
+    // Image protection: disable right-click and drag
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
+        e.preventDefault();
+      }
+    });
+    // CSS: disable image selection
+    var style = document.createElement('style');
+    style.textContent = 'img, video { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-user-drag: none; -khtml-user-drag: none; pointer-events: auto; }';
+    document.head.appendChild(style);
+  </script>
 </head>
 <body>
 

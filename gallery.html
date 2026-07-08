@@ -150,7 +150,58 @@ a { color: rgb(0, 0, 238); text-decoration: none; }
 .scroll-top:active { transform: scale(0.96); }
 
 /* Menu overlay styles — shared via /css/nav.css */
+
+/* ===== Lightbox ===== */
+.lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.lightbox.open { opacity: 1; pointer-events: auto; }
+.lightbox-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.85); cursor: zoom-out;
+}
+.lightbox-close {
+  position: absolute; top: 20px; right: 30px; z-index: 10001;
+  font-size: 40px; color: #fff; cursor: pointer;
+  width: 44px; height: 44px; line-height: 44px; text-align: center;
+  border-radius: 50%; transition: transform 0.2s ease, background 0.2s;
+  user-select: none; -webkit-user-select: none;
+}
+.lightbox-close:hover { transform: scale(1.15); background: rgba(255,255,255,0.1); }
+.lightbox-img-wrap {
+  position: fixed; inset: 0; z-index: 10000;
+  cursor: grab; touch-action: none; overflow: visible;
+}
+.lightbox-img-wrap:active { cursor: grabbing; }
+.lightbox-img {
+  position: absolute; display: block;
+  max-width: 95vw; max-height: 95vh;
+  object-fit: contain; border-radius: 4px;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) translate(0px, 0px) scale(1);
+  transition: transform 0.15s ease-out;
+  user-select: none; -webkit-user-drag: none; pointer-events: none;
+}
 </style>
+  <script>
+    // Image protection: disable right-click and drag
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
+        e.preventDefault();
+      }
+    });
+    // CSS: disable image selection
+    var style = document.createElement('style');
+    style.textContent = 'img, video { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-user-drag: none; -khtml-user-drag: none; pointer-events: auto; }';
+    document.head.appendChild(style);
+  </script>
 </head>
 <body>
 
@@ -302,6 +353,11 @@ images.forEach(function(item_data, index) {
     img.dataset.src = './all/' + item_data.src;
     img.alt = item_data.src.replace(/\.[^/.]+$/, '');
     img.classList.add('lazy-loading');
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openLightbox(img.src || img.dataset.src);
+    });
     item.appendChild(img);
   }
   grid.appendChild(item);
@@ -361,6 +417,91 @@ window.addEventListener('scroll', function() {
     document.addEventListener('DOMContentLoaded', bind);
     bind();
   })();
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-overlay" id="lbOverlay"></div>
+  <div class="lightbox-close" id="lbClose" aria-label="关闭">×</div>
+  <div class="lightbox-img-wrap" id="lbWrap">
+    <img class="lightbox-img" id="lbImg" src="" alt="">
+  </div>
+</div>
+
+<script>
+(function() {
+  var lb = document.getElementById('lightbox');
+  var overlay = document.getElementById('lbOverlay');
+  var closeBtn = document.getElementById('lbClose');
+  var wrap = document.getElementById('lbWrap');
+  var img = document.getElementById('lbImg');
+
+  var dx = 0, dy = 0, scale = 1;
+  var dragging = false, startX, startY, lastDx, lastDy;
+
+  window.openLightbox = function(src) {
+    img.src = src;
+    dx = 0; dy = 0; scale = 1;
+    updateTransform();
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    dx = 0; dy = 0; scale = 1;
+    updateTransform();
+  }
+
+  function updateTransform() {
+    img.style.transform = 'translate(-50%, -50%) translate(' + dx + 'px, ' + dy + 'px) scale(' + scale + ')';
+  }
+
+  overlay.addEventListener('click', closeLightbox);
+  closeBtn.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
+  });
+
+  // Drag to pan
+  wrap.addEventListener('mousedown', function(e) {
+    dragging = true; startX = e.clientX; startY = e.clientY; lastDx = dx; lastDy = dy;
+    wrap.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    dx = lastDx + (e.clientX - startX);
+    dy = lastDy + (e.clientY - startY);
+    updateTransform();
+  });
+  document.addEventListener('mouseup', function() {
+    dragging = false; wrap.style.cursor = 'grab';
+  });
+
+  // Touch drag
+  wrap.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      dragging = true; startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+      lastDx = dx; lastDy = dy;
+    }
+  }, { passive: true });
+  document.addEventListener('touchmove', function(e) {
+    if (!dragging || e.touches.length !== 1) return;
+    dx = lastDx + (e.touches[0].clientX - startX);
+    dy = lastDy + (e.touches[0].clientY - startY);
+    updateTransform();
+  }, { passive: true });
+  document.addEventListener('touchend', function() { dragging = false; });
+
+  // Wheel zoom
+  wrap.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    var delta = e.deltaY > 0 ? -0.1 : 0.1;
+    scale = Math.max(0.5, Math.min(4, scale + delta));
+    updateTransform();
+  }, { passive: false });
+})();
 </script>
 </body>
 </html>
