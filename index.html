@@ -90,92 +90,76 @@ Error generating stack: `+e.message+`
       });
     </script>
     <script>
-      // Lazy load images with shimmer placeholders — robust version
-      function initLazyLoad() {
-        if (!('IntersectionObserver' in window)) {
-          // Fallback: load all images immediately
-          document.querySelectorAll('img[data-src]').forEach(function(img) {
-            img.src = img.dataset.src; delete img.dataset.src;
-          });
-          return;
-        }
-
-        var lazyObserver = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              var el = entry.target;
-              if (el.tagName === 'IMG' && el.dataset.src) {
-                el.addEventListener('load', function() {
-                  el.classList.remove('lazy-loading');
-                  el.classList.add('lazy-loaded');
-                });
-                el.addEventListener('error', function() {
-                  el.classList.remove('lazy-loading');
-                  el.classList.add('lazy-loaded');
-                });
-                el.src = el.dataset.src;
-                delete el.dataset.src;
-              }
-              if (el.tagName === 'VIDEO') {
-                var sources = el.querySelectorAll('source[data-src]');
-                if (sources.length > 0) {
-                  sources.forEach(function(s) {
-                    s.src = s.dataset.src; delete s.dataset.src;
-                  });
-                  el.classList.remove('lazy-loading');
-                  el.classList.add('lazy-loaded');
-                  el.load();
-                }
-              }
-              lazyObserver.unobserve(el);
-            }
-          });
-        }, { rootMargin: '500px 0px', threshold: 0.01 });
-
-        // Find images that need lazy loading
-        document.querySelectorAll('img').forEach(function(img) {
+      // Smart image loading: native lazy loading + priority hints (no src removal)
+      // This approach NEVER removes src, so images never break
+      function setupImages() {
+        var imgs = document.querySelectorAll('img:not([data-img-setup])');
+        var viewportH = window.innerHeight;
+        imgs.forEach(function(img) {
+          img.dataset.imgSetup = '1';
+          // Skip tiny logos/icons
           if (img.closest('.nav-logo')) return;
-          if (img.dataset.lazySetup) return;
-          img.dataset.lazySetup = '1';
+          // Skip hero images (already prioritized by React)
+          if (img.closest('.hero-image') || img.closest('.hero-video')) return;
 
-          // Already loaded
-          if (img.complete && img.naturalWidth > 0 && img.src) {
+          var rect = img.getBoundingClientRect();
+          var inViewport = rect.top < viewportH + 500 && rect.bottom > -500;
+
+          if (inViewport) {
+            // Above the fold: load immediately with high priority
+            img.setAttribute('fetchpriority', 'high');
             img.classList.add('lazy-loaded');
-            return;
-          }
-
-          // Convert src to data-src for lazy loading
-          if (img.src && !img.closest('.hero-video') && !img.closest('.hero-image')) {
-            img.dataset.src = img.src;
-            img.removeAttribute('src');
-            img.classList.add('lazy-loading');
-            lazyObserver.observe(img);
-          }
-        });
-
-        // Lazy load videos
-        document.querySelectorAll('video').forEach(function(video) {
-          if (video.closest('.hero-video') || video.closest('.hero-image')) return;
-          if (video.dataset.lazySetup) return;
-          video.dataset.lazySetup = '1';
-          var sources = video.querySelectorAll('source[src]');
-          if (sources.length > 0) {
-            video.classList.add('lazy-loading');
-            sources.forEach(function(source) {
-              source.dataset.src = source.src;
-              source.removeAttribute('src');
-            });
-            lazyObserver.observe(video);
+          } else {
+            // Below the fold: use native lazy loading
+            img.setAttribute('loading', 'lazy');
+            img.setAttribute('fetchpriority', 'low');
+            // Add shimmer while loading
+            if (!img.complete) {
+              img.classList.add('lazy-loading');
+              img.addEventListener('load', function() {
+                img.classList.remove('lazy-loading');
+                img.classList.add('lazy-loaded');
+              }, { once: true });
+              img.addEventListener('error', function() {
+                img.classList.remove('lazy-loading');
+                img.classList.add('lazy-loaded');
+              }, { once: true });
+            } else {
+              img.classList.add('lazy-loaded');
+            }
           }
         });
       }
 
-      // Run repeatedly to catch React re-renders
-      setTimeout(initLazyLoad, 100);
-      setTimeout(initLazyLoad, 500);
-      setTimeout(initLazyLoad, 1500);
-      setTimeout(initLazyLoad, 3000);
-      setTimeout(initLazyLoad, 6000);
+      // Run after React renders (multiple times to catch late renders)
+      function runSetupImages() {
+        setupImages();
+      }
+      // Use MutationObserver to catch all React-rendered images
+      var imgObserver = new MutationObserver(function(mutations) {
+        var hasNew = false;
+        mutations.forEach(function(m) {
+          m.addedNodes.forEach(function(node) {
+            if (node.nodeType !== 1) return;
+            if (node.tagName === 'IMG') hasNew = true;
+            else if (node.querySelectorAll && node.querySelectorAll('img').length > 0) hasNew = true;
+          });
+        });
+        if (hasNew) setTimeout(runSetupImages, 10);
+      });
+
+      if (document.body) {
+        imgObserver.observe(document.body, { childList: true, subtree: true });
+      } else {
+        document.addEventListener('DOMContentLoaded', function() {
+          imgObserver.observe(document.body, { childList: true, subtree: true });
+        });
+      }
+      // Initial runs
+      setTimeout(runSetupImages, 100);
+      setTimeout(runSetupImages, 500);
+      setTimeout(runSetupImages, 1500);
+      setTimeout(runSetupImages, 3000);
     </script>
     <script>
       // Image protection (deferred): disable right-click, drag, and selection on images/videos
